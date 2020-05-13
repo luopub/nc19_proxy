@@ -15,9 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
+from proxyhome.views import home_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('oauth/', include('authaccount.urls')),
     path('proxy/', include('proxies.urls')),
+    path('', home_view),
+    path('/', home_view),
 ]

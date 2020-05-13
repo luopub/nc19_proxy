@@ -25,12 +25,13 @@ SECRET_KEY = 'r5h5we2766@9d#-vcrp&ehi%=6p(j*c(-0pw-ipkpvxi^=$va2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['139.9.250.53', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['139.9.250.53', '127.0.0.1', 'localhost', '*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'proxyhome',
     'proxies',
     'logutils',
     'wishutils',
