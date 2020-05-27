@@ -22,5 +22,4 @@ urlpatterns = [
     path('oauth/', include('authaccount.urls')),
     path('proxy/', include('proxies.urls')),
     path('', home_view),
-    path('/', home_view),
 ]
