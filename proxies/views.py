@@ -4,6 +4,8 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from logutils.logutils import get_logger
 from .wish_handler import WishHandler
 
+import requests
+
 
 logger = get_logger('authaccount')
 
@@ -23,11 +25,11 @@ def wish_proxy_proc(request, path=''):
     # if request.method != 'POST':
         # logger.warning('wish_proxy_proc only accept POST call')
         # return HttpResponse('wish_proxy_proc only accept POST call')
-        
+
     logger.info('wish_proxy_proc method: ' + request.method)
-    
+
     r1, r2 = WishHandler.handle(request, path)
-    
+
     if r1:
         if isinstance(r2, HttpResponse):
             return r2
@@ -42,3 +44,12 @@ def wish_proxy_proc_api(request, path=''):
 def wish_proxy_serverinfo(request):
     return wish_proxy_proc(request)
 
+def wish_download_file(request):
+    """
+    Some functions need to download file from wish platform, e.g. product download
+    """
+    file_path = request.POST.get('file_path', default = '')
+    if not file_path:
+        return HttpResponseBadRequest('No file path given.')
+
+    res = requests.get(file_path)
