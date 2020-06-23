@@ -87,12 +87,13 @@ DATABASES = {
     }
     # 'default': {
         # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        # 'NAME': 'wishapphttps',
-        # 'USER':'wishapphttps',
+        # 'NAME': 'nc19_t6_proxy',
+        # 'USER':'nc19_t6_proxy',
         # 'PASSWORD':'1q2w3e4r5t^Y',
         # 'HOST':'127.0.0.1',
         # 'PORT':'5432',
     # }
+
 }
 
 
@@ -133,6 +134,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+]
+
+# All static files are collected to STATIC_ROOT by "python manage.py collectstatic"
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
 
 # SERVER_ADDR = '139.9.250.53'
 # SERVER_PORT = '5678'

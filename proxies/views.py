@@ -53,3 +53,11 @@ def wish_download_file(request):
         return HttpResponseBadRequest('No file path given.')
 
     res = requests.get(file_path)
+
+    if res.status_code == 200:
+        response = HttpResponse(res.iter_content(65536), content_type = res.headers['Content-Type'])
+        response['Content-Disposition'] = 'attachment; filename=' + unquote(urlparse(file_path).path.split('/')[-1])
+        response['Content-Length'] = res.headers['Content-Length']
+        return response
+
+    raise Http404(f'File not found: {file_path}')

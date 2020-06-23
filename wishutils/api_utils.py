@@ -14,20 +14,21 @@ class JsonRequest():
         logger.debug(f'json_request: {method}, {url}, {params}, {data}, {headers}')
         try:
             r = requests.request(method, url, params=params, data = data, headers = headers)
-            
+
             if 'Wish-Rate-Limit-Remaining' in r.headers:
                 logger.debug('Wish-Rate-Limit-Remaining: ' + r.headers['Wish-Rate-Limit-Remaining'])
             if 'Wish-Request-Id' in r.headers:
                 logger.debug('Wish-Request-Id: ' + r.headers['Wish-Request-Id'])
-                
+
             logger.info(r.headers)
-            
+
             logger.info(r.text)
-            
+
             # r = json.loads(r.text)
             return r.text, r.headers
         except ConnectionError as ce:
-            logger.error(f'ConnectionError: {method} {url}: params={str(params)}, headers={str(headers)}')
+            logger.error(f'ConnectionError1: {method} {url}: params={str(params)}, headers={str(headers)}')
+            logger.error(f'ConnectionError2: {ce.args}, {ce.errno}, {ce.response}, {ce.winerror}, {ce.filename}, {ce.request}, {ce.strerror}')
         except JSONDecodeError as jde:
             logger.error(f'JSONDecodeError: {method} {url}: params={str(params)}, headers={str(headers)}, text={r.text}')
         except TypeError as te:
@@ -37,7 +38,7 @@ class JsonRequest():
     @staticmethod
     def json_request_get(url, params={}, headers = {}):
         return JsonRequest.json_request('GET', url, params=params, headers=headers)
-        
+
     @staticmethod
     def json_request_post(url, params={}, data={}, headers = {}):
         return JsonRequest.json_request('POST', url, params=params, data=data, headers=headers)
@@ -46,13 +47,13 @@ class WishApiTrans(JsonRequest):
     url_api_base_root = 'https://china-merchant.wish.com/'
     url_api_base_v2 = url_api_base_root + 'api/v2/'
     url_api_base_v3 = url_api_base_root + 'api/v3/'
-    
+
     endpoint_oauth_authorize = 'v3/oauth/authorize'
     url_oauth_authorize = urljoin(url_api_base_root, endpoint_oauth_authorize)
-    
+
     endpoint_oauth_access_token = 'oauth/access_token'
     url_access_token = urljoin(url_api_base_v3, endpoint_oauth_access_token)
-    
+
     endpoints_v2 = [
         'product/add',
         'product',
@@ -177,7 +178,7 @@ class WishApiTrans(JsonRequest):
         'product_boost/balance_updates',
         'ratings/products',
     ]
-    
+
     @classmethod
     def get_url_oauth_authorize(cls, path):
         if path[-1] == '/':
@@ -185,7 +186,7 @@ class WishApiTrans(JsonRequest):
         if cls.endpoint_oauth_authorize == path:
             return cls.url_oauth_authorize
         return False
-      
+
     @classmethod
     def get_url_access_token(cls, path):
         if path[-1] == '/':
@@ -193,7 +194,7 @@ class WishApiTrans(JsonRequest):
         if cls.endpoint_oauth_access_token == path:
             return cls.url_access_token
         return False
-        
+
     @classmethod
     def get_url_api_v2v3(cls, path):
         if path[-1] == '/':

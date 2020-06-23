@@ -15,11 +15,36 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
-from proxyhome.views import home_view
+# from proxyhome.views import home_view
+
+from django.http import HttpResponse
+import os
+
+def read_file_chunks(fn, remove_file = False, buf_size=262144):
+    with open(fn, "rb") as f:
+        c = f.read(buf_size)
+        while c:
+            yield c
+            c = f.read(buf_size)
+
+    if remove_file:
+        os.remove(fn)
+    return None
+
+
+def download_image(request, filename):
+    file_path = os.path.join(os.path.split(__file__)[0], filename)
+    response = HttpResponse(read_file_chunks(file_path), content_type = 'image/png')
+    response['Content-Disposition'] = 'attachment; filename=' + filename
+    response['Content-Length'] = os.path.getsize(file_path)
+    return response
+
+def root_view(request):
+    return download_image(request, 'zucoor-logo-small.png')
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
     path('oauth/', include('authaccount.urls')),
     path('proxy/', include('proxies.urls')),
-    path('', home_view),
+    path('logo.png', root_view),
 ]

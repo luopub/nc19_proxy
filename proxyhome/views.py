@@ -3,4 +3,4 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 # Create your views here.
 def home_view(request):
-    return HttpResponse('Proxy home!')
+    return HttpResponse('Nc19 Proxy home!')
