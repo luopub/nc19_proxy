@@ -5,6 +5,7 @@ from logutils.logutils import get_logger
 from .wish_handler import WishHandler
 
 import requests
+import json
 
 
 logger = get_logger('authaccount')
@@ -34,7 +35,7 @@ def wish_proxy_proc(request, path=''):
         if isinstance(r2, HttpResponse):
             return r2
         else:
-            return HttpResponse(str(r2))
+            return HttpResponse(json.dumps(r2))
     else:
         return HttpResponseBadRequest('Please check parameter.')
 
