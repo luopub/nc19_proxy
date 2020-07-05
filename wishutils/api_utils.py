@@ -1,4 +1,6 @@
 import requests
+requests.adapters.DEFAULT_RETRIES = 5
+
 from requests import ConnectionError
 import json
 from json.decoder import JSONDecodeError

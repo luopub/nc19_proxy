@@ -5,6 +5,8 @@ from logutils.logutils import get_logger
 from .wish_handler import WishHandler
 
 import requests
+requests.adapters.DEFAULT_RETRIES = 5
+
 import json
 
 
