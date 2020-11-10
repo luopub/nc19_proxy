@@ -71,7 +71,8 @@ class WishHandler(ProxyHandler):
             
     @classmethod
     def handle_url_api_v2v3(cls, request, url):
-        logger.debug(f'handle_url_api_v2v3: {request.META.keys()}')
+        logger.debug(f'handle_url_api_v2v3 meta: {request.META.keys()}')
+        logger.debug(f'handle_url_api_v2v3 headers: {request.headers.keys()}')
         headers = {}
         if 'HTTP_AUTHORIZATION' in request.META:
             headers['authorization'] = request.META['HTTP_AUTHORIZATION']
