@@ -1,12 +1,12 @@
 from urllib.parse import urlencode
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
-import json
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 
 from wishutils.api_utils import WishApiTrans, JsonRequest
 from logutils.logutils import get_logger
 from .proxy_handler import ProxyHandler
 
 logger = get_logger('authaccount')
+
 
 class WishHandler(ProxyHandler):
     wishapi = None
@@ -71,6 +71,7 @@ class WishHandler(ProxyHandler):
             
     @classmethod
     def handle_url_api_v2v3(cls, request, url):
+        logger.debug(f'handle_url_api_v2v3: {request.META.keys()}')
         headers = {}
         if 'HTTP_AUTHORIZATION' in request.META:
             headers['authorization'] = request.META['HTTP_AUTHORIZATION']

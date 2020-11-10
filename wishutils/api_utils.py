@@ -1,5 +1,4 @@
 import requests
-requests.adapters.DEFAULT_RETRIES = 5
 
 from requests import ConnectionError
 import json
@@ -9,6 +8,9 @@ from urllib.parse import urljoin, urlencode
 from logutils.logutils import get_logger
 
 logger = get_logger('api_utils')
+
+requests.adapters.DEFAULT_RETRIES = 5
+
 
 class JsonRequest():
     @staticmethod
@@ -37,13 +39,6 @@ class JsonRequest():
             logger.error(f'TypeError: {method} {url}: params={str(params)}, headers={str(headers)}, text={r.text}')
         return None, None
 
-    @staticmethod
-    def json_request_get(url, params={}, headers = {}):
-        return JsonRequest.json_request('GET', url, params=params, headers=headers)
-
-    @staticmethod
-    def json_request_post(url, params={}, data={}, headers = {}):
-        return JsonRequest.json_request('POST', url, params=params, data=data, headers=headers)
 
 class WishApiTrans(JsonRequest):
     url_api_base_root = 'https://china-merchant.wish.com/'
