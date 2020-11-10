@@ -93,6 +93,7 @@ class WishApiTrans(JsonRequest):
         'order',
         'order/multi-get',
         'order/multi-get-fbw',
+        'order/multi-get-fbs',
         'order/get-fulfill',
         'order/fulfill-one',
         'order/refund',
@@ -103,6 +104,7 @@ class WishApiTrans(JsonRequest):
         'order/cancel-download-job',
         'order/get-confirmed-delivery-countries',
         'order/get-confirmed-delivery-shipping-carriers-for-country',
+        'order/upload-delivery-confirmation',
         'warehouse/get-all',
         'ticket',
         'ticket/get-action-required',
@@ -165,20 +167,32 @@ class WishApiTrans(JsonRequest):
     ]
     endpoints_v3 = [
         'oauth/access_token',
-        'oauth/refresh_token',
+        'product_boost/campaigns/{id}/metrics',
+        'epc/orders',
         'oauth/test',
-        'brands',
-        'currencies',
-        'epc/enrollments',
-        'fbs/recommendations',
-        'fbs/variations',
-        'penalties/count',
-        'penalties',
+        'penalties/{id}',
+        'product_boost/keywords',
+        'product_boost/campaigns/{id}/product_feedback',
         'product_boost/campaigns',
+        'merchant/warehouses',
+        'merchant/currency_settings',
+        'oauth/refresh_token',
+        'epc/enrollments/{region}',
         'product_boost/budget',
-        'product_boost/campaigns',
-        'product_boost/balance_updates',
+        'payments/early_payment',
+        'product_boost/campaigns/{id}',
+        'fbs/variations/{id}',
+        'penalties',
+        'fbs/recommendations',
         'ratings/products',
+        'epc/merchant_warehouses/{region}',
+        'penalties/count',
+        'epc/enrollments/{region}/{product_id}',
+        'brands',
+        'merchant/shipping_settings',
+        'currencies',
+        'product_boost/balance_updates',
+        'epc/merchant_warehouses',
     ]
 
     @classmethod
@@ -203,6 +217,7 @@ class WishApiTrans(JsonRequest):
             path = path[:-1]
         if path in cls.endpoints_v2:
             return cls.url_api_base_v2 + path
-        if path in cls.endpoints_v3:
+        # if path in cls.endpoints_v3:
+        else:
             return cls.url_api_base_v3 + path
         return False

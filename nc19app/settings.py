@@ -82,18 +82,14 @@ WSGI_APPLICATION = 'nc19app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-    # 'default': {
-        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        # 'NAME': 'nc19_t6_proxy',
-        # 'USER':'nc19_t6_proxy',
-        # 'PASSWORD':'1q2w3e4r5t^Y',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'nc19_proxy',
+        'USER':'nc19_proxy',
+        'PASSWORD':'1q2w3e4r5t^Y',
+        'HOST':'139.9.250.53',
         # 'HOST':'127.0.0.1',
-        # 'PORT':'5432',
-    # }
-
+        'PORT':'5432',
+    }
 }
 
 
