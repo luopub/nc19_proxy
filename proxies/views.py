@@ -30,6 +30,7 @@ def wish_proxy_proc(request, path=''):
         # return HttpResponse('wish_proxy_proc only accept POST call')
 
     logger.info('wish_proxy_proc method: ' + request.method)
+    logger.info('wish_proxy_proc META: {}'.format(str(request.META)))
 
     r1, r2 = WishHandler.handle(request, path)
 
@@ -41,11 +42,14 @@ def wish_proxy_proc(request, path=''):
     else:
         return HttpResponseBadRequest('Please check parameter.')
 
+
 def wish_proxy_proc_api(request, path=''):
     return wish_proxy_proc(request, path = path)
 
+
 def wish_proxy_serverinfo(request):
     return wish_proxy_proc(request)
+
 
 def wish_download_file(request):
     """
