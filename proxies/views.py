@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.http import Http404
 from django.http import HttpResponse, HttpResponseBadRequest
 
 from logutils.logutils import get_logger
@@ -14,7 +14,6 @@ logger = get_logger('authaccount')
 
 
 def wish_proxy_proc(request, path=''):
-    logger.info('wish_proxy_proc: ' + path)
     """
     Proxy receve data in by POST method.
     The data contains at least two fields:
@@ -25,11 +24,7 @@ def wish_proxy_proc(request, path=''):
             params: params for GET request
             data: form data for POST request
     """
-    # if request.method != 'POST':
-        # logger.warning('wish_proxy_proc only accept POST call')
-        # return HttpResponse('wish_proxy_proc only accept POST call')
 
-    logger.info('wish_proxy_proc method: ' + request.method)
     logger.info('wish_proxy_proc META: {}'.format(str(request.META)))
 
     r1, r2 = WishHandler.handle(request, path)
