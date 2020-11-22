@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'wishutils',
     'authaccount',
     'django_extensions',
-    'werkzeug_debugger_runserver',
+    # 'werkzeug_debugger_runserver',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
