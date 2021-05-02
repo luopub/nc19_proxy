@@ -17,7 +17,10 @@ class WishHandler(ProxyHandler):
         if request.method == 'GET':
             logger.info('WishHandler GET: {}'.format(str(request.GET)))
         if request.method == 'POST':
-            logger.info('WishHandler POST: {}'.format(str(request.POST)))
+            # logger.info(f'request fields: {set(dir(request)) - set(dir(object))}')
+            # logger.info('WishHandler POST: {}'.format(str(request.POST)))
+            # logger.info('WishHandler content_type: {}'.format(str(request.content_type)))
+            logger.info('WishHandler body: {}'.format(str(request.body)))
         
         # First check if it is an wish API request
         r1, r2 = cls.handle_wish_apis(request, path)
@@ -75,7 +78,9 @@ class WishHandler(ProxyHandler):
             headers['authorization'] = request.META['HTTP_AUTHORIZATION']
         if 'HTTP_LOCALE' in request.META:
             headers['locale'] = request.META['HTTP_LOCALE']
-        text, headers = JsonRequest.json_request(request.method, url, params = request.GET, data = request.POST, headers = headers)
+        if getattr(request, 'content_type', None):
+            headers['Content-Type'] = getattr(request, 'content_type')
+        text, headers = JsonRequest.json_request(request.method, url, params = request.GET, data = request.body, headers = headers)
         if text:
             logger.info('handle_url_api_v2v3 headers: {}'.format(str(headers)))
             response = HttpResponse(text)
