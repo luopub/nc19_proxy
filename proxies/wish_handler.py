@@ -1,3 +1,4 @@
+import json
 from urllib.parse import urlencode
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 
@@ -29,7 +30,7 @@ class WishHandler(ProxyHandler):
         
         # if not wish api request, data must be POST with 'type' in post data
         if not request.method == 'POST' or not 'type' in request.POST:
-            return False, {'status':1001, 'data':'Data format error'}
+            return False, {'status':1001, 'data': 'Data format error'}
             
         # Common request for proxy configuration
         r1, r2 = cls.pre_process(request)
@@ -80,7 +81,19 @@ class WishHandler(ProxyHandler):
             headers['locale'] = request.META['HTTP_LOCALE']
         if getattr(request, 'content_type', None):
             headers['Content-Type'] = getattr(request, 'content_type')
-        text, headers = JsonRequest.json_request(request.method, url, params = request.GET, data = request.body, headers = headers)
+
+        kwargs = {
+            'headers': headers
+        }
+        if headers.get('Content-Type') == 'application/json':
+            kwargs['json'] = json.loads(request.body.decode('utf8'))
+        else:
+            kwargs['data'] = request.body
+
+        if request.GET:
+            kwargs['params'] = request.GET
+
+        text, headers = JsonRequest.json_request(request.method, url, **kwargs)
         if text:
             logger.info('handle_url_api_v2v3 headers: {}'.format(str(headers)))
             response = HttpResponse(text)

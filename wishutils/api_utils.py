@@ -12,12 +12,12 @@ logger = get_logger('api_utils')
 requests.adapters.DEFAULT_RETRIES = 5
 
 
-class JsonRequest():
+class JsonRequest:
     @staticmethod
-    def json_request(method, url, params={}, data={}, headers = {}):
-        logger.debug(f'json_request: {method}, {url}, {params}, {data}, {headers}')
+    def json_request(method, url, params=None, data=None, json=None, headers=None):
+        logger.debug(f'json_request: method={method}, url={url}, params={params}, data={data}, json={json}, headers={headers}')
         try:
-            r = requests.request(method, url, params=params, data = data, headers = headers)
+            r = requests.request(method, url, params=params, data=data, json=json, headers=headers)
 
             if 'Wish-Rate-Limit-Remaining' in r.headers:
                 logger.debug('Wish-Rate-Limit-Remaining: ' + r.headers['Wish-Rate-Limit-Remaining'])
@@ -31,12 +31,12 @@ class JsonRequest():
             # r = json.loads(r.text)
             return r.text, r.headers
         except ConnectionError as ce:
-            logger.error(f'ConnectionError1: {method} {url}: params={str(params)}, headers={str(headers)}')
-            logger.error(f'ConnectionError2: {ce.args}, {ce.errno}, {ce.response}, {ce.winerror}, {ce.filename}, {ce.request}, {ce.strerror}')
+            logger.error(f'ConnectionError1: {method} {url}: params={str(params)}, data={str(data)}, json={str(json)}, headers={str(headers)}')
+            logger.error(f'ConnectionError2: {ce.args}, {ce.errno}, {ce.response}, {ce.filename}, {ce.request}, {ce.strerror}')
         except JSONDecodeError as jde:
-            logger.error(f'JSONDecodeError: {method} {url}: params={str(params)}, headers={str(headers)}, text={r.text}')
+            logger.error(f'JSONDecodeError: {method} {url}: params={str(params)}, data={str(data)}, json={str(json)}, headers={str(headers)}, text={r.text}')
         except TypeError as te:
-            logger.error(f'TypeError: {method} {url}: params={str(params)}, headers={str(headers)}, text={r.text}')
+            logger.error(f'TypeError: {method} {url}: params={str(params)}, data={str(data)}, json={str(json)}, text={r.text}')
         return None, None
 
 
